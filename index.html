@@ -3,47 +3,178 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="A free open-source content planner for schools, small businesses, associations and digital creators."
+  >
+
   <title>Open Content Planner</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
       background: #f4f6f8;
+      color: #1f2937;
     }
 
     h1 {
       text-align: center;
+      margin-bottom: 10px;
     }
 
-    .form {
+    .subtitle {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #4b5563;
+    }
+
+    .card {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+      padding: 22px;
+      border-radius: 12px;
+      margin-bottom: 22px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
     }
 
-    input, select, textarea, button {
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 4px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
       width: 100%;
       padding: 12px;
-      margin-top: 10px;
-      box-sizing: border-box;
+      font-size: 16px;
+      border-radius: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      border: 1px solid #cbd5e1;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
     button {
-      background: #222;
-      color: white;
       border: none;
       cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary-button {
+      background: #111827;
+      color: white;
+    }
+
+    .primary-button:hover {
+      background: #374151;
+    }
+
+    .danger-button {
+      background: #dc2626;
+      color: white;
+    }
+
+    .delete-button {
+      background: #fee2e2;
+      color: #991b1b;
+      width: auto;
+      padding: 9px 14px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .toolbar div {
+      flex: 1;
+    }
+
+    .toolbar button {
+      width: auto;
     }
 
     .post {
       background: white;
-      padding: 15px;
-      margin-top: 10px;
-      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border-left: 5px solid #111827;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: start;
+    }
+
+    .post h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .post p {
+      margin: 8px 0;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 25px;
+      color: #64748b;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .counter {
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media (max-width: 650px) {
+      .toolbar,
+      .post-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .toolbar button,
+      .delete-button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -52,57 +183,240 @@
 
   <h1>Open Content Planner</h1>
 
-  <p>
+  <p class="subtitle">
     A free open-source tool for schools, small businesses,
     associations and digital creators.
   </p>
 
-  <div class="form">
-    <input id="title" type="text" placeholder="Post title">
+  <section class="card">
+    <form id="contentForm" class="form-grid">
+      <label for="title">Post title</label>
+      <input
+        id="title"
+        type="text"
+        placeholder="Example: Summer English Campaign"
+        maxlength="100"
+        required
+      >
 
-    <select id="platform">
-      <option>Instagram</option>
-      <option>Facebook</option>
-      <option>LinkedIn</option>
-      <option>TikTok</option>
-    </select>
+      <label for="platform">Platform</label>
+      <select id="platform">
+        <option value="Instagram">Instagram</option>
+        <option value="Facebook">Facebook</option>
+        <option value="LinkedIn">LinkedIn</option>
+        <option value="TikTok">TikTok</option>
+        <option value="YouTube">YouTube</option>
+        <option value="Other">Other</option>
+      </select>
 
-    <input id="date" type="date">
+      <label for="date">Publication date</label>
+      <input id="date" type="date" required>
 
-    <textarea id="description" placeholder="Post description"></textarea>
+      <label for="description">Post description</label>
+      <textarea
+        id="description"
+        placeholder="Describe your content idea..."
+        maxlength="1000"
+      ></textarea>
 
-    <button onclick="addPost()">Add to content plan</button>
-  </div>
+      <button class="primary-button" type="submit">
+        Add to content plan
+      </button>
+    </form>
+  </section>
 
-  <div id="posts"></div>
+  <section>
+    <div class="toolbar">
+      <div>
+        <label for="filter">Filter by platform</label>
+        <select id="filter">
+          <option value="All">All platforms</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Facebook">Facebook</option>
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="TikTok">TikTok</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <button id="clearButton" class="danger-button" type="button">
+        Clear all
+      </button>
+    </div>
+
+    <div id="counter" class="counter"></div>
+    <div id="posts"></div>
+  </section>
+
+  <footer>
+    Open Content Planner — Free and open-source under the MIT License.
+  </footer>
 
   <script>
-    function addPost() {
-      const title = document.getElementById("title").value;
-      const platform = document.getElementById("platform").value;
-      const date = document.getElementById("date").value;
-      const description = document.getElementById("description").value;
+    "use strict";
 
-      if (!title || !date) {
-        alert("Please enter a title and date.");
+    const storageKey = "openContentPlannerPosts";
+
+    const form = document.getElementById("contentForm");
+    const titleInput = document.getElementById("title");
+    const platformInput = document.getElementById("platform");
+    const dateInput = document.getElementById("date");
+    const descriptionInput = document.getElementById("description");
+    const filterInput = document.getElementById("filter");
+    const clearButton = document.getElementById("clearButton");
+    const postsContainer = document.getElementById("posts");
+    const counter = document.getElementById("counter");
+
+    let posts = loadPosts();
+
+    function loadPosts() {
+      try {
+        const savedPosts = localStorage.getItem(storageKey);
+        return savedPosts ? JSON.parse(savedPosts) : [];
+      } catch (error) {
+        console.error("Could not load saved posts:", error);
+        return [];
+      }
+    }
+
+    function savePosts() {
+      localStorage.setItem(storageKey, JSON.stringify(posts));
+    }
+
+    function createTextElement(tag, text) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      return element;
+    }
+
+    function renderPosts() {
+      const selectedPlatform = filterInput.value;
+
+      const filteredPosts = selectedPlatform === "All"
+        ? posts
+        : posts.filter(post => post.platform === selectedPlatform);
+
+      postsContainer.replaceChildren();
+
+      counter.textContent =
+        `${filteredPosts.length} planned post${filteredPosts.length === 1 ? "" : "s"}`;
+
+      if (filteredPosts.length === 0) {
+        const emptyMessage = document.createElement("div");
+        emptyMessage.className = "empty-message";
+        emptyMessage.textContent = "No planned posts found.";
+        postsContainer.appendChild(emptyMessage);
         return;
       }
 
-      const post = document.createElement("div");
-      post.className = "post";
+      filteredPosts
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .forEach(post => {
+          const postElement = document.createElement("article");
+          postElement.className = "post";
 
-      post.innerHTML = `
-        <h3>${title}</h3>
-        <p><strong>Platform:</strong> ${platform}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <p>${description}</p>
-      `;
+          const header = document.createElement("div");
+          header.className = "post-header";
 
-      document.getElementById("posts").appendChild(post);
+          const title = createTextElement("h3", post.title);
 
-      document.getElementById("title").value = "";
-      document.getElementById("description").value = "";
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "delete-button";
+          deleteButton.type = "button";
+          deleteButton.textContent = "Delete";
+          deleteButton.addEventListener("click", () => deletePost(post.id));
+
+          header.append(title, deleteButton);
+
+          const platform = createTextElement(
+            "p",
+            `Platform: ${post.platform}`
+          );
+
+          const date = createTextElement(
+            "p",
+            `Publication date: ${post.date}`
+          );
+
+          postElement.append(header, platform, date);
+
+          if (post.description) {
+            const description = createTextElement("p", post.description);
+            postElement.appendChild(description);
+          }
+
+          postsContainer.appendChild(postElement);
+        });
     }
+
+    function addPost(event) {
+      event.preventDefault();
+
+      const title = titleInput.value.trim();
+      const platform = platformInput.value;
+      const date = dateInput.value;
+      const description = descriptionInput.value.trim();
+
+      if (!title || !date) {
+        alert("Please enter a post title and publication date.");
+        return;
+      }
+
+      const newPost = {
+        id: crypto.randomUUID
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random()}`,
+        title,
+        platform,
+        date,
+        description
+      };
+
+      posts.push(newPost);
+      savePosts();
+      renderPosts();
+
+      form.reset();
+      platformInput.value = "Instagram";
+      titleInput.focus();
+    }
+
+    function deletePost(postId) {
+      const confirmed = confirm("Delete this planned post?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      posts = posts.filter(post => post.id !== postId);
+      savePosts();
+      renderPosts();
+    }
+
+    function clearAllPosts() {
+      if (posts.length === 0) {
+        return;
+      }
+
+      const confirmed = confirm(
+        "Delete all planned posts? This action cannot be undone."
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      posts = [];
+      savePosts();
+      renderPosts();
+    }
+
+    form.addEventListener("submit", addPost);
+    filterInput.addEventListener("change", renderPosts);
+    clearButton.addEventListener("click", clearAllPosts);
+
+    renderPosts();
   </script>
 
 </body>
