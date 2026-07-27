@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Content Planner</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f4f6f8;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #222;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .post {
+      background: white;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Open Content Planner</h1>
+
+  <p>
+    A free open-source tool for schools, small businesses,
+    associations and digital creators.
+  </p>
+
+  <div class="form">
+    <input id="title" type="text" placeholder="Post title">
+
+    <select id="platform">
+      <option>Instagram</option>
+      <option>Facebook</option>
+      <option>LinkedIn</option>
+      <option>TikTok</option>
+    </select>
+
+    <input id="date" type="date">
+
+    <textarea id="description" placeholder="Post description"></textarea>
+
+    <button onclick="addPost()">Add to content plan</button>
+  </div>
+
+  <div id="posts"></div>
+
+  <script>
+    function addPost() {
+      const title = document.getElementById("title").value;
+      const platform = document.getElementById("platform").value;
+      const date = document.getElementById("date").value;
+      const description = document.getElementById("description").value;
+
+      if (!title || !date) {
+        alert("Please enter a title and date.");
+        return;
+      }
+
+      const post = document.createElement("div");
+      post.className = "post";
+
+      post.innerHTML = `
+        <h3>${title}</h3>
+        <p><strong>Platform:</strong> ${platform}</p>
+        <p><strong>Date:</strong> ${date}</p>
+        <p>${description}</p>
+      `;
+
+      document.getElementById("posts").appendChild(post);
+
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+    }
+  </script>
+
+</body>
+</html>
